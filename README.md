@@ -1,2 +1,2 @@
 # bookbot
-this is a bookbot cli
+BookBot is my first project!
