@@ -1,31 +1,37 @@
-def count_words(txt):
-	count = 0
-	for word in txt.split():
-		count += 1
+from collections import defaultdict
 
-	return count
+def count_words_and_chars(txt):
+    word_count = 0
+    char_count = defaultdict(int)
 
-def count_chars(txt):
-	words = txt.split()
-	char = {}
-
-	for word in words:
-		for c in word.lower():
-			if c.isalpha() and c in char.keys():
-				char[c] += 1
-			elif c.isalpha():
-				char[c] = 1
-	return char
+    for word in txt.split():
+        word_count += 1
+        for c in word.lower():
+            if c.isalpha():
+                char_count[c] += 1
+    
+    return word_count, char_count
 
 
 def main():
-	with open('books/frakenstein.txt') as f:
-		file_contents = f.read()
-		print("--- Begin report of books/frankenstein.txt ---")
-		print(f'{count_words(file_contents)} words found in the document\n')
-		c = count_chars(file_contents)
-		for e in c:
-			print(f"The '{e}' character was found {c[e]} times")
+    file_path = 'books/frankenstein.txt'
+    try:
+        with open(file_path, 'r') as f:
+            file_contents = f.read()
+        
+        word_count, char_count = count_words_and_chars(file_contents)
 
-		print("--- End report ---")
-main()
+        print(f"--- Begin report of {file_path} ---")
+        print(f"{word_count} words found in the document\n")
+
+        for char, count in sorted(char_count.items()):
+            print(f"The '{char}' character was found {count} times")
+
+        print("--- End report ---")
+
+    except FileNotFoundError:
+        print(f"File {file_path} not found.")
+
+
+if __name__ == "__main__":
+    main()
